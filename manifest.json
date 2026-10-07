@@ -1,0 +1,47 @@
+{
+  "manifest_version": 3,
+  "name": "WeBWorK Spoiler Guard",
+  "version": "1.0.0",
+  "description": "Hides revealed answers, correct/incorrect marks and scores on WeBWorK so you can re-practice problems after the due date.",
+  "minimum_chrome_version": "105",
+  "permissions": ["storage", "scripting"],
+  "optional_host_permissions": ["*://*/*"],
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/webwork2/*", "*://*/webwork/*"],
+      "css": ["src/hide.css"],
+      "js": ["src/content.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "action": {
+    "default_popup": "src/popup.html",
+    "default_title": "WeBWorK Spoiler Guard",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "commands": {
+    "toggle-peek": {
+      "suggested_key": { "default": "Alt+Shift+P" },
+      "description": "Peek: temporarily reveal everything on this page"
+    },
+    "toggle-enabled": {
+      "suggested_key": { "default": "Alt+Shift+H" },
+      "description": "Turn hiding on/off for this site"
+    }
+  }
+}

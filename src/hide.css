@@ -1,0 +1,179 @@
+/*
+ * WeBWorK Spoiler Guard - hiding rules.
+ *
+ * Everything is hidden by DEFAULT and only revealed once the content script
+ * sets data-wwh-<category>="off" on <html>. That ordering is deliberate: the
+ * stylesheet lands before any markup is painted, and if the script fails or
+ * storage is slow the page errs on the side of not spoiling anything.
+ *
+ * Categories: answers | results | scores | solutions
+ * data-wwh-mode="blur" swaps hiding for a blur you can reveal by hovering.
+ */
+
+/* ------------------------------------------------------------------ *
+ * 1. Correct answers
+ * ------------------------------------------------------------------ */
+html:not([data-wwh-answers="off"]) :is(
+  .wwh-mark-answers,
+  .correct_answer,
+  .answer-preview,
+  td.correct-answer,
+  .ww-correct-answer
+) {
+  display: none !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 2. Right/wrong feedback (the thing that "shows it as correct")
+ * ------------------------------------------------------------------ */
+html:not([data-wwh-results="off"]) :is(
+  .wwh-mark-results,
+  table.attemptResults,
+  .attemptResults,
+  .attemptResultsSummary,
+  .ww-feedback,
+  .ww-feedback-popover,
+  .feedback-btn-container,
+  button.ww-feedback-btn,
+  .answer-correct,
+  .answer-incorrect,
+  td.correct,
+  td.incorrect,
+  span.correct,
+  span.incorrect,
+  div.correct,
+  div.incorrect,
+  .ResultsWithoutError,
+  .ResultsWithError,
+  img[src*="check"],
+  img[alt*="correct" i],
+  i.fa-check,
+  i.fa-check-circle,
+  i.fa-times,
+  i.fa-times-circle,
+  i.fa-circle-check,
+  i.fa-circle-xmark
+) {
+  display: none !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 3. Scores, status columns, progress bars
+ * ------------------------------------------------------------------ */
+html:not([data-wwh-scores="off"]) :is(
+  .wwh-mark-scores,
+  #score-table,
+  .score-table,
+  .problem-grader,
+  .grade-table td:not(:first-child),
+  .progress,
+  .progress-bar,
+  .student-nav-score
+) {
+  display: none !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * 4. Solutions and hints
+ * ------------------------------------------------------------------ */
+html:not([data-wwh-solutions="off"]) :is(
+  .wwh-mark-solutions,
+  .solution,
+  .hint,
+  #solution,
+  #hint,
+  .ww-solution,
+  .ww-hint
+) {
+  display: none !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * Blur mode: show the elements again, but obscured until hovered.
+ * ------------------------------------------------------------------ */
+html[data-wwh-mode="blur"] :is(
+  [class*="wwh-mark-"],
+  table.attemptResults,
+  .attemptResults,
+  .attemptResultsSummary,
+  .ww-feedback,
+  .ww-feedback-popover,
+  .correct_answer,
+  .answer-preview,
+  .solution,
+  .hint,
+  #score-table,
+  .progress
+) {
+  display: revert !important;
+  filter: blur(6px) !important;
+  transition: filter 120ms ease-out;
+  cursor: help;
+}
+
+html[data-wwh-mode="blur"] :is(
+  [class*="wwh-mark-"],
+  table.attemptResults,
+  .attemptResults,
+  .attemptResultsSummary,
+  .ww-feedback,
+  .ww-feedback-popover,
+  .correct_answer,
+  .answer-preview,
+  .solution,
+  .hint,
+  #score-table,
+  .progress
+):hover {
+  filter: none !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * The extension's own on-page controls are never a spoiler.
+ * ------------------------------------------------------------------ */
+#wwh-panel,
+#wwh-panel * {
+  display: revert !important;
+  filter: none !important;
+  visibility: visible !important;
+}
+
+#wwh-panel {
+  position: fixed !important;
+  right: 14px;
+  bottom: 14px;
+  z-index: 2147483647 !important;
+  display: flex !important;
+  gap: 6px;
+  align-items: center;
+  padding: 6px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  background: #0f172aee;
+  color: #e2e8f0;
+  font: 500 12px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  box-shadow: 0 6px 20px rgba(2, 6, 23, 0.35);
+  user-select: none;
+}
+
+#wwh-panel button {
+  all: unset;
+  display: inline-flex !important;
+  align-items: center;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: #1e293b;
+  color: #e2e8f0;
+  cursor: pointer;
+  font: inherit;
+  white-space: nowrap;
+}
+
+#wwh-panel button:hover { background: #334155; }
+#wwh-panel button[data-active="true"] { background: #2563eb; color: #fff; }
+#wwh-panel .wwh-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #22c55e; flex: none;
+}
+#wwh-panel[data-state="revealed"] .wwh-dot { background: #f59e0b; }
+#wwh-panel[data-state="off"] .wwh-dot { background: #64748b; }

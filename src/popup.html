@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>WeBWorK Spoiler Guard</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <h1>Spoiler Guard</h1>
+    <label class="switch" title="Turn the whole extension on or off">
+      <input type="checkbox" id="enabled">
+      <span class="track"><span class="knob"></span></span>
+    </label>
+  </header>
+
+  <p class="site" id="site-line">Checking this page&hellip;</p>
+
+  <section>
+    <h2>Hide on WeBWorK pages</h2>
+    <label class="row"><input type="checkbox" data-setting="answers"> Revealed correct answers</label>
+    <label class="row"><input type="checkbox" data-setting="results"> Correct / incorrect marks</label>
+    <label class="row"><input type="checkbox" data-setting="scores"> Scores, status and attempts</label>
+    <label class="row"><input type="checkbox" data-setting="solutions"> Solutions and hints</label>
+  </section>
+
+  <section>
+    <h2>Make problems fresh again</h2>
+    <label class="row"><input type="checkbox" data-setting="clearAnswers"> Empty pre-filled answer boxes</label>
+    <label class="row"><input type="checkbox" data-setting="forceParams"> Never ask the server for answers</label>
+    <label class="row"><input type="checkbox" data-setting="showPanel"> Show the peek button on the page</label>
+  </section>
+
+  <section>
+    <h2>Style</h2>
+    <div class="segmented" id="mode">
+      <button type="button" data-mode="hide">Remove</button>
+      <button type="button" data-mode="blur">Blur (hover to read)</button>
+    </div>
+  </section>
+
+  <section class="site-actions">
+    <button type="button" id="toggle-site" class="secondary">Turn off for this site</button>
+    <button type="button" id="grant-site" class="secondary" hidden>Also run on this site</button>
+  </section>
+
+  <details>
+    <summary>Advanced</summary>
+    <p class="hint">
+      If your school's WeBWorK still shows something, right-click it &rarr; Inspect,
+      copy a class or id, and add it here (one CSS selector per line).
+    </p>
+    <textarea id="extraSelectors" rows="4" placeholder=".my-score-column&#10;#answer-box"></textarea>
+  </details>
+
+  <footer>
+    <span><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> peek</span>
+    <span><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>H</kbd> site on/off</span>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>
