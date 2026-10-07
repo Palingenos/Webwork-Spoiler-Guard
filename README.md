@@ -8,6 +8,26 @@ I wanted to redo old problem sets before an exam and couldn't. Once the answer d
 
 So the extension blanks all of that out and gives you a Peek button for when you actually want to check yourself.
 
+## Screenshots
+
+An old, fully-graded set with the extension on. Blank boxes, no checkmarks in
+the sidebar, no score line.
+
+![Spoilers hidden](example-screenshots/01-spoilers-hidden.png)
+
+The same page after pressing Peek. Your old answers come back, along with
+everything WeBWorK normally shows you.
+
+![Peek](example-screenshots/02-peek-revealed.png)
+
+The popup, with correctness marks and scores switched back on but revealed
+answers still hidden. Each category is independent.
+
+![Popup controls](example-screenshots/03-popup-controls.png)
+
+(The question text and the URL are blurred in these because it's my actual
+course.)
+
 ## What it hides
 
 - The revealed correct answer, and the Correct Answer / Answer Preview columns

@@ -76,6 +76,11 @@ Required:
 - **Store icon** — 128x128 PNG. `icons/icon128.png` already matches.
 - **Screenshots** — at least 1, up to 5. Must be exactly **1280x800** or 640x400 PNG/JPEG.
 
+Three are already taken, blurred and committed under `example-screenshots/`
+(URL, question text and name removed). They are at full window size, so run
+them through `./shot.sh example-screenshots/*.png` to get 1280x800 copies in
+`shots/` for upload.
+
 Screenshots worth taking:
 
 1. A completed WeBWorK problem with the extension on, blank boxes, no green

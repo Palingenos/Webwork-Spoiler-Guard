@@ -217,6 +217,36 @@
     }
   }
 
+  // The sidebar problem links are built server-side as plain text, with the
+  // status symbol glued straight onto the end:
+  //
+  //     <a class="nav-link">Problem 1 &#x2713;</a>
+  //
+  // There's no element and no class around the symbol, so hide.css has
+  // nothing to aim at. Wrap it in one here and the normal rules apply:
+  // it hides with the other correct/incorrect marks, blurs in blur mode,
+  // and comes back on peek, with no extra bookkeeping.
+  const STATUS_SYMBOL = /\s*[\u2713\u2717\u2026]+\s*$/; // check, cross, ellipsis
+
+  function markProblemListStatus(scope) {
+    for (const link of scope.querySelectorAll('.problem-list a.nav-link')) {
+      if (link.dataset.wwhNav === 'done') continue;
+      link.dataset.wwhNav = 'done';
+
+      for (const node of [...link.childNodes]) {
+        if (node.nodeType !== Node.TEXT_NODE) continue;
+        const match = node.nodeValue.match(STATUS_SYMBOL);
+        if (!match) continue;
+
+        node.nodeValue = node.nodeValue.slice(0, match.index);
+        const span = document.createElement('span');
+        span.className = 'wwh-mark-results wwh-marked';
+        span.textContent = match[0];
+        link.appendChild(span);
+      }
+    }
+  }
+
   /* ---------------------------------------------------------------- *
    * Answer boxes
    * ---------------------------------------------------------------- */
@@ -384,6 +414,7 @@
     if (!document.body) return;
     markTextSpoilers(document.body);
     markTableColumns(document.body);
+    markProblemListStatus(document.body);
     markExtraSelectors(document.body);
     suppressRevealRequests();
     if (hidingActive() && settings.clearAnswers) clearAnswerInputs();
