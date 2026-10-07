@@ -112,7 +112,7 @@ Hides answers, correctness feedback and scores on WeBWorK course pages so studen
 | --- | --- |
 | `storage` | Saves the user's own settings: which spoiler categories to hide, hide vs. blur mode, which sites the extension is paused on, and any custom CSS selectors they entered. No other data is stored. |
 | `scripting` | Registers the content script on WeBWorK installations hosted at a path other than /webwork2/ or /webwork/, after the user explicitly grants that single site from the popup. |
-| Host permissions | The extension must read and restyle the WeBWorK page itself in order to hide revealed answers, correctness marks and scores, and to clear answer boxes WeBWorK pre-filled. Default matches are limited to URLs containing /webwork2/ or /webwork/. Broader access is optional and requested one domain at a time, only when the user presses "Also run on this site". |
+| Host permissions | The extension must read and restyle the WeBWorK page itself in order to hide revealed answers, correctness marks and scores, and to clear answer boxes WeBWorK pre-filled. Default matches are limited to URLs containing /webwork2/ or /webwork/. Broader access is optional and requested one domain at a time, only when the user presses "Also run on this site". activeTab is not usable here: it grants access only after a user gesture, while this extension must run at document_start so the answers are never painted at all; by the time a toolbar click could grant access the spoiler has already been shown. A fixed list of sites is also not possible, because WeBWorK is self-hosted and every school runs it on its own domain, which is why the match pattern is scoped by path rather than by host. No host permission is granted at install time. |
 
 **Remote code:** No, the extension does not use remote code. All JavaScript and CSS ships in the package.
 
@@ -143,6 +143,19 @@ Google won't decide this for you; the declaration is yours. Re-declare as a trad
 ## 6. Distribution
 
 Public, all regions. No ads, no payment. Not primarily directed at children under 13.
+
+---
+
+## The "Publishing will be delayed" dialog
+
+Submitting shows a **Broad Host Permissions** warning saying the extension may
+need an in-depth review. That is a flag for human review, not a rejection, and
+it is expected here: it fires on the `*://*/*` pattern string regardless of the
+fact that the permission is optional and ungranted at install.
+
+Press **Submit for review**. Review takes longer than the usual few days as a
+result, sometimes a couple of weeks. The permission justifications above are
+written to answer the reviewer's question directly.
 
 ---
 
